@@ -5,6 +5,4 @@ abstract class IAuthAPI{
     required String email,
     required String password
  })
-
-
  }
