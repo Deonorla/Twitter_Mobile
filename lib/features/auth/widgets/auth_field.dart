@@ -12,7 +12,7 @@ class AuthField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: inputText,
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           fontSize: 18
         ),
         contentPadding: const EdgeInsets.all(22),
