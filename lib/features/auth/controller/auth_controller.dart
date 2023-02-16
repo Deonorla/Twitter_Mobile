@@ -3,6 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_mobile_clone/apis/auth_api.dart';
 import 'package:twitter_mobile_clone/core/utils.dart';
 
+final authControllerProvider =
+    StateNotifierProvider<AuthController, bool>((ref) {
+  return AuthController(authAPI: ref.watch(authAPIProvider));
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authApi;
   AuthController({required AuthAPI authAPI})
@@ -17,6 +22,7 @@ class AuthController extends StateNotifier<bool> {
       required BuildContext context}) async {
     state = true; // is loading becomes true once signUp is pressed
     final res = await _authApi.signUp(email: email, password: password);
-    res.fold((l) => showSnackBar(context, l.message), (r) => r.name);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) => r.email);
   }
 }
