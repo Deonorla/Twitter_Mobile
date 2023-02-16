@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_mobile_clone/features/auth/view/login_view.dart';
+// import 'package:twitter_mobile_clone/features/auth/view/login_view.dart';
 import 'package:twitter_mobile_clone/theme/theme.dart';
 import 'package:twitter_mobile_clone/features/auth/view/signup_view.dart';
 
@@ -21,4 +21,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
