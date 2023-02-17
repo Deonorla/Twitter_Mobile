@@ -18,12 +18,25 @@ abstract class IAuthAPI {
 
   FutureEither<model.Session> login(
       {required String email, required String password});
+
+  Future<model.User?> currentUserAccount();
 }
 
 class AuthAPI implements IAuthAPI {
   final Account _account; // private account variable.
   AuthAPI({required Account account}) : _account = account; // constructor to
   // make the instance of new variable "account" to accessible outside of this class
+
+  @override
+  Future<model.User?> currentUserAccount() async {
+    try {
+      return await _account.get();
+    } on AppwriteException catch (e) {
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 
   @override
   FutureEither<model.User> signUp(

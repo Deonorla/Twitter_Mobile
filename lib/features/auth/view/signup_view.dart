@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_mobile_clone/common/loading_screen.dart';
 import 'package:twitter_mobile_clone/constants/ui_constants.dart';
 import 'package:twitter_mobile_clone/features/auth/controller/auth_controller.dart';
 import 'package:twitter_mobile_clone/theme/styles.dart';
