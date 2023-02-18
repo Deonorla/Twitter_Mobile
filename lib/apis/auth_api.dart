@@ -25,7 +25,7 @@ abstract class IAuthAPI {
 class AuthAPI implements IAuthAPI {
   final Account _account; // private account variable.
   AuthAPI({required Account account}) : _account = account; // constructor to
-  // make the instance of new variable "account" to accessible outside of this class
+  // make the instance of new variable "account" to not be accessible outside of this class
 
   @override
   Future<model.User?> currentUserAccount() async {
