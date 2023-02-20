@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as model;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_mobile_clone/apis/auth_api.dart';
+import 'package:twitter_mobile_clone/apis/user_api.dart';
 import 'package:twitter_mobile_clone/core/utils.dart';
 import 'package:twitter_mobile_clone/features/auth/view/login_view.dart';
 import 'package:twitter_mobile_clone/features/home/view/home_view.dart';
+import 'package:twitter_mobile_clone/models/user_model.dart';
 
 final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
-  return AuthController(authAPI: ref.watch(authAPIProvider));
+  return AuthController(
+      authAPI: ref.watch(authAPIProvider), userAPI: ref.watch(userAPIProvider));
 });
 
 final currentUserAccountProvider = FutureProvider((ref) {
@@ -18,8 +21,10 @@ final currentUserAccountProvider = FutureProvider((ref) {
 
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authApi;
-  AuthController({required AuthAPI authAPI})
+  final UserAPI _userApi;
+  AuthController({required AuthAPI authAPI, required UserAPI userAPI})
       : _authApi = authAPI,
+        _userApi = userAPI,
         super(false);
 
   Future<model.User?> currentUser() => _authApi.currentUserAccount();
@@ -32,13 +37,24 @@ class AuthController extends StateNotifier<bool> {
     state = true; // is loading becomes true once signUp is pressed
     final res = await _authApi.signUp(email: email, password: password);
     state = false;
-    res.fold(
-        (l) => showSnackBar(context, l.message),
-        (r) => {
-              showSnackBar(context, 'Accounted created! Please login.'),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginView()))
-            });
+    res.fold((l) => showSnackBar(context, l.message), (r) async {
+      UserModel userModel = UserModel(
+          email: email,
+          name: getNameFromEmail(email),
+          followers: const [],
+          following: const [],
+          profilePicture: '',
+          bannerPic: '',
+          uid: '',
+          bio: '',
+          isTwitterBlue: false);
+      final res2 = await _userApi.saveUserData(userModel);
+      res2.fold((l) => showSnackBar(context, l.message), (r) {
+        showSnackBar(context, 'Accounted created! Please login.');
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginView()));
+      });
+    });
   }
 
   void login(

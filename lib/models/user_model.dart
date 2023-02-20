@@ -55,7 +55,6 @@ class UserModel {
     result.addAll({'following': following});
     result.addAll({'profilePicture': profilePicture});
     result.addAll({'banner': bannerPic});
-    result.addAll({'uid': uid});
     result.addAll({'bio': bio});
     result.addAll({'isTwitterBlue': isTwitterBlue});
     return result;
@@ -69,7 +68,7 @@ class UserModel {
         following: map["following"] ?? '',
         profilePicture: map["profilePicture"] ?? '',
         bannerPic: map["bannerPic"] ?? '',
-        uid: map['uid'] ?? '',
+        uid: map['\$id'] ?? '',
         bio: map['bio'] ?? '',
         isTwitterBlue: map['isTwitterBlue'] ?? '');
   }
