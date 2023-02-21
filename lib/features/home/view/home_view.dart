@@ -1,10 +1,61 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:twitter_mobile_clone/constants/assets_constants.dart';
+import 'package:twitter_mobile_clone/constants/ui_constants.dart';
+import 'package:twitter_mobile_clone/theme/styles.dart';
 
-class HomeView extends ConsumerWidget {
+class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold();
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  int _page = 0;
+  final appbar = UiConstants.appbar();
+
+  void onChangePage(int index) {
+    setState(() {
+      _page = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appbar,
+      body: IndexedStack(
+        index: _page,
+        children: UiConstants.bottomTabBarPage,
+      ), //Helps to maintain state
+      bottomNavigationBar: CupertinoTabBar(
+        backgroundColor: Styles.backgroundColor,
+        currentIndex: _page,
+        onTap: onChangePage,
+        items: [
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+            _page == 0
+                ? AssetsConstants.homeFilledIcon
+                : AssetsConstants.homeOutlinedIcon,
+            color: Styles.whiteColor,
+          )),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+            AssetsConstants.searchIcon,
+            color: Styles.whiteColor,
+          )),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+            _page == 2
+                ? AssetsConstants.notifFilledIcon
+                : AssetsConstants.notifOutlinedIcon,
+            color: Styles.whiteColor,
+          )),
+        ],
+      ),
+    );
   }
 }
