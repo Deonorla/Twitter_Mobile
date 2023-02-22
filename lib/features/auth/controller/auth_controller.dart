@@ -14,6 +14,18 @@ final authControllerProvider =
       authAPI: ref.watch(authAPIProvider), userAPI: ref.watch(userAPIProvider));
 });
 
+final currentUserDetailsProvider = FutureProvider((ref) {
+  final currentUserId = ref.watch(currentUserAccountProvider).value!.$id;
+  final userDetails = ref.watch(userDetailsProvider(currentUserId));
+  print(userDetailsProvider(currentUserId));
+  return userDetails.value;
+});
+
+final userDetailsProvider = FutureProvider.family((ref, String uid) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getUserData(uid);
+});
+
 final currentUserAccountProvider = FutureProvider((ref) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.currentUser();
@@ -45,7 +57,7 @@ class AuthController extends StateNotifier<bool> {
           following: const [],
           profilePicture: '',
           bannerPic: '',
-          uid: '',
+          uid: r.$id,
           bio: '',
           isTwitterBlue: false);
       final res2 = await _userApi.saveUserData(userModel);
@@ -69,5 +81,13 @@ class AuthController extends StateNotifier<bool> {
         (l) => showSnackBar(context, l.message),
         (r) => Navigator.push(context,
             MaterialPageRoute(builder: (context) => const HomeView())));
+  }
+
+  Future<UserModel> getUserData(String uid) async {
+    final document = await _userApi.getUserData(uid);
+    final test = await _userApi.getUserData('63f5f0f5459377d48671');
+    print(' this is the data: $test');
+    final updatedUser = UserModel.fromMap(document.data);
+    return updatedUser;
   }
 }
