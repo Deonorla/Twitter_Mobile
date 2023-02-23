@@ -17,7 +17,6 @@ final authControllerProvider =
 final currentUserDetailsProvider = FutureProvider((ref) {
   final currentUserId = ref.watch(currentUserAccountProvider).value!.$id;
   final userDetails = ref.watch(userDetailsProvider(currentUserId));
-  print(userDetailsProvider(currentUserId));
   return userDetails.value;
 });
 
@@ -76,7 +75,6 @@ class AuthController extends StateNotifier<bool> {
     state = true;
     final res = await _authApi.login(email: email, password: password);
     state = false;
-    // ignore: avoid_print
     res.fold(
         (l) => showSnackBar(context, l.message),
         (r) => Navigator.push(context,
@@ -85,8 +83,8 @@ class AuthController extends StateNotifier<bool> {
 
   Future<UserModel> getUserData(String uid) async {
     final document = await _userApi.getUserData(uid);
-    final test = await _userApi.getUserData('63f5f0f5459377d48671');
-    print(' this is the data: $test');
+    print(uid);
+    // print(document.runtimeType);
     final updatedUser = UserModel.fromMap(document.data);
     return updatedUser;
   }

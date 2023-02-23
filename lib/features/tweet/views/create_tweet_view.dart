@@ -14,7 +14,6 @@ class _CreateTweetViewState extends ConsumerState<CreateTweetView> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserDetailsProvider).value;
-    print(currentUser);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

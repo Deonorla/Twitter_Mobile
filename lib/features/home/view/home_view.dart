@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
 
   onCreateTweet() {
     Navigator.push(context,
-        MaterialPageRoute(builder: (contetx) => const CreateTweetView()));
+        MaterialPageRoute(builder: (context) => const CreateTweetView()));
   }
 
   @override
