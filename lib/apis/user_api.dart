@@ -36,6 +36,7 @@ class UserAPI implements IUserApi {
 
   @override
   Future<model.Document> getUserData(String uid) {
+    print('this is the id: $uid');
     return _db.getDocument(
         collectionId: AppwriteConstants.usersCollection, documentId: uid);
   }
