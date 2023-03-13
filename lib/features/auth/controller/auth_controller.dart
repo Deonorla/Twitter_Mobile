@@ -39,7 +39,7 @@ class AuthController extends StateNotifier<bool> {
         _userApi = userAPI,
         super(false);
 
-  Future<model.User?> currentUser() => _authApi.currentUserAccount();
+  Future<model.Account?> currentUser() => _authApi.currentUserAccount();
 
 //This function gets trigger whenever the user press sign Up
   void signUp(

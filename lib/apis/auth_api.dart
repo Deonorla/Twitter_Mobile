@@ -13,13 +13,13 @@ final authAPIProvider = Provider((ref) {
 // when you want to Signup / get user account => use Account from service
 // when you want to access user account => use model.Account
 abstract class IAuthAPI {
-  FutureEither<model.User> signUp(
+  FutureEither<model.Account> signUp(
       {required String email, required String password});
 
   FutureEither<model.Session> login(
       {required String email, required String password});
 
-  Future<model.User?> currentUserAccount();
+  Future<model.Account?> currentUserAccount();
 }
 
 class AuthAPI implements IAuthAPI {
@@ -28,7 +28,7 @@ class AuthAPI implements IAuthAPI {
   // make the instance of new variable "account" to not be accessible outside of this class
 
   @override
-  Future<model.User?> currentUserAccount() async {
+  Future<model.Account?> currentUserAccount() async {
     try {
       return await _account.get();
     } on AppwriteException {
@@ -39,7 +39,7 @@ class AuthAPI implements IAuthAPI {
   }
 
   @override
-  FutureEither<model.User> signUp(
+  FutureEither<model.Account> signUp(
       {required String email, required String password}) async {
     try {
       //create new User on Sign Up.

@@ -32,10 +32,12 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar,
+
       body: IndexedStack(
         index: _page,
         children: UiConstants.bottomTabBarPage,
       ), //IndexedStack Helps to maintain state
+
       floatingActionButton: FloatingActionButton(
           onPressed: onCreateTweet,
           child: const Icon(

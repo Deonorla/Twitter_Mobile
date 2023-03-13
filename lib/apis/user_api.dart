@@ -25,6 +25,7 @@ class UserAPI implements IUserApi {
       await _db.createDocument(
           collectionId: AppwriteConstants.usersCollection,
           documentId: userModel.uid,
+          databaseId: AppwriteConstants.databaseId,
           data: userModel.toMap());
       return right(null);
     } on AppwriteException catch (e, st) {
@@ -38,6 +39,8 @@ class UserAPI implements IUserApi {
   Future<model.Document> getUserData(String uid) {
     print('this is the id: $uid');
     return _db.getDocument(
-        collectionId: AppwriteConstants.usersCollection, documentId: uid);
+        collectionId: AppwriteConstants.usersCollection,
+        documentId: uid,
+        databaseId: AppwriteConstants.databaseId);
   }
 }
