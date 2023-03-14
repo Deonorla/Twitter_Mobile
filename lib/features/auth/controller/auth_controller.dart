@@ -16,7 +16,6 @@ final authControllerProvider =
 
 final currentUserDetailsProvider = FutureProvider((ref) {
   final currentUserId = ref.watch(currentUserAccountProvider).value!.$id;
-  print('id: $currentUserId');
   final userDetails = ref.watch(userDetailsProvider(currentUserId));
   return userDetails.value;
 });
