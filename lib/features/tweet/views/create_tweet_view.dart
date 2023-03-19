@@ -8,6 +8,7 @@ import 'package:twitter_mobile_clone/common/common.dart';
 import 'package:twitter_mobile_clone/constants/assets_constants.dart';
 import 'package:twitter_mobile_clone/core/utils.dart';
 import 'package:twitter_mobile_clone/features/auth/controller/auth_controller.dart';
+import 'package:twitter_mobile_clone/features/tweet/controller/tweet_controller.dart';
 import 'package:twitter_mobile_clone/theme/styles.dart';
 
 class CreateTweetView extends ConsumerStatefulWidget {
@@ -31,9 +32,15 @@ class _CreateTweetViewState extends ConsumerState<CreateTweetView> {
     setState(() {});
   }
 
+  void shareTweet() {
+    ref.read(tweetControllerProvider.notifier).shareTweet(
+        images: images, text: tweetTextController.text, context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserDetailsProvider).value;
+    final isLoading = ref.watch(tweetControllerProvider);
     // print(currentUser);
     return Scaffold(
       appBar: AppBar(
@@ -45,13 +52,13 @@ class _CreateTweetViewState extends ConsumerState<CreateTweetView> {
         ),
         actions: [
           RoundedSmallButton(
-              onTap: () {},
+              onTap: shareTweet,
               label: 'Tweet',
               backgroundColor: Styles.blueColor,
               textColor: Styles.whiteColor)
         ],
       ),
-      body: currentUser == null
+      body: isLoading || currentUser == null
           ? const Loader()
           : SafeArea(
               child: SingleChildScrollView(

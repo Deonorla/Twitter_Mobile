@@ -6,11 +6,19 @@ import 'package:twitter_mobile_clone/core/enums/tweet_type_enum.dart';
 import 'package:twitter_mobile_clone/core/utils.dart';
 import 'package:twitter_mobile_clone/features/auth/controller/auth_controller.dart';
 import 'package:twitter_mobile_clone/models/tweet_model.dart';
+import '../../../apis/tweet_api.dart';
+
+final tweetControllerProvider =
+    StateNotifierProvider<TweetController, bool>((ref) {
+  return TweetController(ref: ref, tweerAPI: ref.watch(tweetProvider));
+});
 
 class TweetController extends StateNotifier<bool> {
   final Ref _ref;
-  TweetController({required Ref ref})
+  final TweetAPI _tweetAPI;
+  TweetController({required Ref ref, required TweetAPI tweerAPI})
       : _ref = ref,
+        _tweetAPI = tweerAPI,
         super(false);
 
   void shareTweet(
@@ -34,7 +42,8 @@ class TweetController extends StateNotifier<bool> {
       required String text,
       required BuildContext context}) {}
 
-  void _shareTextTweet({required String text, required BuildContext context}) {
+  void _shareTextTweet(
+      {required String text, required BuildContext context}) async {
     state = true;
     final hashTags = _getHashTagsFromText(text);
     String link = _getLinkFromText(text);
@@ -43,19 +52,22 @@ class TweetController extends StateNotifier<bool> {
         text: text,
         hashTags: hashTags,
         link: link,
-        imageLinks: [],
+        imageLinks: const [],
         uid: user.uid,
         tweetType: TweetType.text,
         tweetedAt: DateTime.now(),
-        likes: [],
-        commentIds: [],
+        likes: const [],
+        commentIds: const [],
         id: '',
         reshareCount: 0);
+    final res = await _tweetAPI.shareTweet(tweet);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) => null);
   }
 
   String _getLinkFromText(String text) {
     String link = '';
-    List<String> wordsInSentence = text.split('');
+    List<String> wordsInSentence = text.split(' ');
     for (String word in wordsInSentence) {
       if (word.startsWith('https://') || word.startsWith('www.')) {
         link = word;
@@ -66,7 +78,7 @@ class TweetController extends StateNotifier<bool> {
 
   List<String> _getHashTagsFromText(String text) {
     List<String> hashTags = [];
-    List<String> wordsInSentence = text.split('');
+    List<String> wordsInSentence = text.split(' ');
     for (String word in wordsInSentence) {
       if (word.startsWith('#')) {
         hashTags.add(word);
