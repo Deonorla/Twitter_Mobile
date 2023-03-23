@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:twitter_mobile_clone/apis/storage_api.dart';
 import 'package:twitter_mobile_clone/core/enums/tweet_type_enum.dart';
 import 'package:twitter_mobile_clone/core/utils.dart';
 import 'package:twitter_mobile_clone/features/auth/controller/auth_controller.dart';
@@ -10,15 +10,23 @@ import '../../../apis/tweet_api.dart';
 
 final tweetControllerProvider =
     StateNotifierProvider<TweetController, bool>((ref) {
-  return TweetController(ref: ref, tweerAPI: ref.watch(tweetProvider));
+  return TweetController(
+      ref: ref,
+      tweerAPI: ref.watch(tweetProvider),
+      storageAPI: ref.watch(storageAPIProvider));
 });
 
 class TweetController extends StateNotifier<bool> {
   final Ref _ref;
   final TweetAPI _tweetAPI;
-  TweetController({required Ref ref, required TweetAPI tweerAPI})
+  final StorageAPI _strorageAPI;
+  TweetController(
+      {required Ref ref,
+      required TweetAPI tweerAPI,
+      required StorageAPI storageAPI})
       : _ref = ref,
         _tweetAPI = tweerAPI,
+        _strorageAPI = storageAPI,
         super(false);
 
   void shareTweet(
@@ -40,7 +48,28 @@ class TweetController extends StateNotifier<bool> {
   void _shareImageTweet(
       {required List<File> images,
       required String text,
-      required BuildContext context}) {}
+      required BuildContext context}) async {
+    state = true;
+    final hashTags = _getHashTagsFromText(text);
+    String link = _getLinkFromText(text);
+    final user = _ref.read(currentUserDetailsProvider).value!;
+    final imageLinks = await _strorageAPI.uploadImage(images);
+    Tweet tweet = Tweet(
+        text: text,
+        hashTags: hashTags,
+        link: link,
+        imageLinks: imageLinks,
+        uid: user.uid,
+        tweetType: TweetType.image,
+        tweetedAt: DateTime.now(),
+        likes: const [],
+        commentIds: const [],
+        id: '',
+        reshareCount: 0);
+    final res = await _tweetAPI.shareTweet(tweet);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) => null);
+  }
 
   void _shareTextTweet(
       {required String text, required BuildContext context}) async {
