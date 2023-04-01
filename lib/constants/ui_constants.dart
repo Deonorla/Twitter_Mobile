@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_mobile_clone/features/tweet/widgets/tweet_list.dart';
 import '../theme/styles.dart';
 import 'assets_constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,8 +16,8 @@ class UiConstants {
     );
   }
 
-  static final List<Widget> bottomTabBarPage = [
-    const Text('Feed Screen'),
+  static const List<Widget> bottomTabBarPage = [
+    TweetList(),
     const Text('Search Screen'),
     const Text('Notification Screen'),
   ];
