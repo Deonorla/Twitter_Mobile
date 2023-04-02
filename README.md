@@ -1,16 +1,4 @@
 # twitter_mobile_clone
+![simulator_screenshot_64DBDF01-F176-4B47-82A6-B15235648821](https://user-images.githubusercontent.com/91434033/229378759-37d055eb-ba40-47b6-b17b-32276a12dc87.png)
 
-A new Flutter project.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
