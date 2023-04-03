@@ -31,7 +31,6 @@ class _CarouselImageState extends State<CarouselImage> {
                 );
               }).toList(),
               options: CarouselOptions(
-                  height: 400,
                   enableInfiniteScroll: false,
                   viewportFraction: 1,
                   onPageChanged: (index, reason) {
@@ -39,6 +38,20 @@ class _CarouselImageState extends State<CarouselImage> {
                       _current = index;
                     });
                   }),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: widget.imageLinks.asMap().entries.map((e) {
+                return Container(
+                  width: 12,
+                  height: 12,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white
+                          .withOpacity(_current == e.key ? 0.9 : 0.4)),
+                );
+              }).toList(),
             )
           ],
         )
