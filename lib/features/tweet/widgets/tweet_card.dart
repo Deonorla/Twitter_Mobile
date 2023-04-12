@@ -1,6 +1,8 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:like_button/like_button.dart';
 import 'package:twitter_mobile_clone/common/error_page.dart';
 import 'package:twitter_mobile_clone/constants/assets_constants.dart';
 import 'package:twitter_mobile_clone/core/enums/tweet_type_enum.dart';
@@ -90,6 +92,20 @@ class TweetCard extends ConsumerWidget {
                                   pathName: AssetsConstants.retweetIcon,
                                   text: (tweet.reshareCount).toString(),
                                   onTap: () {}),
+                              LikeButton(
+                                size: 25,
+                                likeBuilder: (isLiked) {
+                                  return isLiked
+                                      ? SvgPicture.asset(
+                                          AssetsConstants.likeFilledIcon,
+                                          color: Styles.redColor,
+                                        )
+                                      : SvgPicture.asset(
+                                          AssetsConstants.likeOutlinedIcon,
+                                          color: Styles.greyColor,
+                                        );
+                                },
+                              ),
                               TweetIconButton(
                                   pathName: AssetsConstants.likeOutlinedIcon,
                                   text: (tweet.likes.length).toString(),

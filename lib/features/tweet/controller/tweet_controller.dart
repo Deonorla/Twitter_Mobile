@@ -21,6 +21,11 @@ final getTweetsProvider = FutureProvider((ref) {
   return tweetController.getTweets();
 });
 
+final getLastestTweetProvider = StreamProvider((ref) {
+  final tweetAPI = ref.watch(tweetProvider);
+  return tweetAPI.getLatestTweet();
+});
+
 class TweetController extends StateNotifier<bool> {
   final Ref _ref;
   final TweetAPI _tweetAPI;
