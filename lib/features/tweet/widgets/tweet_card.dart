@@ -105,11 +105,21 @@ class TweetCard extends ConsumerWidget {
                                           color: Styles.greyColor,
                                         );
                                 },
+                                likeCount: tweet.likes.length,
+                                countBuilder: (likeCount, isLiked, text) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 2.0),
+                                    child: Text(
+                                      text,
+                                      style: TextStyle(
+                                          color: isLiked
+                                              ? Styles.redColor
+                                              : Styles.whiteColor,
+                                          fontSize: 16),
+                                    ),
+                                  );
+                                },
                               ),
-                              TweetIconButton(
-                                  pathName: AssetsConstants.likeOutlinedIcon,
-                                  text: (tweet.likes.length).toString(),
-                                  onTap: () {}),
                               IconButton(
                                   onPressed: () {},
                                   icon: const Icon(
