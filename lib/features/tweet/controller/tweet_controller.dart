@@ -54,6 +54,7 @@ class TweetController extends StateNotifier<bool> {
     }
     tweet = tweet.copyWith(likes: likes);
     final res = await _tweetAPI.likeTweet(tweet);
+    res.fold((l) => null, (r) => null);
   }
 
   void shareTweet(
