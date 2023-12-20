@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-
 import 'package:twitter_mobile_clone/core/enums/tweet_type_enum.dart';
 
 @immutable
