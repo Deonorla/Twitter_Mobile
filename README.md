@@ -1,4 +1,4 @@
-# twitter_mobile_clone
+# Twitter_mobile_clone
 
 Fully functional Twitter mobile clone, with Appwrite as backend and riverpod for state management.
 
