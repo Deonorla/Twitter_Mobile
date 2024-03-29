@@ -22,3 +22,15 @@ Fully functional twitter mobile clone, using Appwrite for backend and riverpod f
 * Edit User Profile
 * Show tweets that have 1 hashtag
 
+## Installation
+
+After cloning this repository, navigate to twitter_mobile and follow this steps:
+
+* Install Appwrite 
+* Create Appwrite Project Locally
+* Create Android & iOS Apps in the Dashboard
+* Create Appwrite Database, Storage
+* Modify Roles in Auth, Database, Storage
+* Create Attributes for Tweets, Users, Notifications Collection
+
+
